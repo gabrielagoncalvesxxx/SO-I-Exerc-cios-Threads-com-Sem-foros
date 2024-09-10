@@ -55,23 +55,3 @@ class Cavaleiro extends Thread {
        }
        System.out.println(nome + " chegou ao final do corredor.");
    }
-   public static void main(String[] args) {
-       Cavaleiro[] cavaleiros = {
-           new Cavaleiro("Cavaleiro 1", 2 + new Random().nextInt(3)),
-           new Cavaleiro("Cavaleiro 2", 2 + new Random().nextInt(3)),
-           new Cavaleiro("Cavaleiro 3", 2 + new Random().nextInt(3)),
-           new Cavaleiro("Cavaleiro 4", 2 + new Random().nextInt(3))
-       };
-       for (Cavaleiro cavaleiro : cavaleiros) {
-           cavaleiro.start();
-       }
-       for (Cavaleiro cavaleiro : cavaleiros) {
-           try {
-               cavaleiro.join();
-           } catch (InterruptedException e) {
-               e.printStackTrace();
-           }
-       }
-       System.out.println("Todos os cavaleiros chegaram ao final do corredor.");
-   }
-}
