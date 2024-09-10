@@ -1,57 +1,40 @@
-//Exercícios Threads com Semáforos
+package threads;
+ 
 import java.util.Random;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-class Cavaleiro extends Thread {
-   private static final int DISTANCIA_TOTAL = 2000;
-   private static final int TOCHA_POSICAO = 500;
-   private static final int PEDRA_POSICAO = 1500;
-   private static final Lock tochaLock = new ReentrantLock();
-   private static final Lock pedraLock = new ReentrantLock();
-   private static boolean tochaPegada = false;
-   private static boolean pedraPegada = false;
-   private int velocidade;
-   private int posicao = 0;
-   private String nome;
-   public Cavaleiro(String nome, int velocidade) {
-       this.nome = nome;
-       this.velocidade = velocidade;
-   }
-   @Override
-   public void run() {
-       Random random = new Random();
-       while (posicao < DISTANCIA_TOTAL) {
-           try {
-               Thread.sleep(50);
-           } catch (InterruptedException e) {
-               e.printStackTrace();
-           }
-           posicao += velocidade;
-           if (posicao >= TOCHA_POSICAO && !tochaPegada) {
-               tochaLock.lock();
-               try {
-                   if (!tochaPegada) {
-                       tochaPegada = true;
-                       velocidade += 2;
-                       System.out.println(nome + " pegou a tocha e agora está a " + velocidade + " m por 50 ms.");
-                   }
-               } finally {
-                   tochaLock.unlock();
-               }
-           }
-           if (posicao >= PEDRA_POSICAO && !pedraPegada && !tochaPegada) {
-               pedraLock.lock();
-               try {
-                   if (!pedraPegada) {
-                       pedraPegada = true;
-                       velocidade += 2;
-                       System.out.println(nome + " pegou a pedra brilhante e agora está a " + velocidade + " m por 50 ms.");
-                   }
-               } finally {
-                   pedraLock.unlock();
-               }
-           }
-       }
-       System.out.println(nome + " chegou ao final do corredor.");
-   }
+ 
+public class Cavaleiro {
+    String nome;
+    int posicao = 0;
+    int velocidade;
+    boolean temTocha = false;
+    boolean temPedra = false;
+ 
+    public Cavaleiro(String nome) {
+        this.nome = nome;
+        // Velocidade inicial entre 2 e 4 metros por 50 ms
+        this.velocidade = new Random().nextInt(3) + 2;
+    }
+ 
+    public void andar() {
+        this.posicao += this.velocidade;
+    }
+ 
+    public void pegarTocha() {
+        if (!temTocha) {
+            temTocha = true;
+            velocidade += 2;
+        }
+    }
+ 
+    public void pegarPedra() {
+        if (!temPedra && !temTocha) {
+            temPedra = true;
+            velocidade += 2;
+        }
+    }
+ 
+    @Override
+    public String toString() {
+        return nome + " está na posição " + posicao + "m com velocidade de " + velocidade + "m/50ms";
+    }
+}
