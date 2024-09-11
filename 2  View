@@ -1,0 +1,7 @@
+//Exercício 2
+package threads;
+public class View {
+    public synchronized void exibirMensagem(String mensagem) {
+        System.out.println(mensagem);
+    }
+}
