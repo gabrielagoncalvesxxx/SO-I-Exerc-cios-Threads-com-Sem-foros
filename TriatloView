@@ -1,0 +1,13 @@
+//Exerício 3
+package threads;
+
+import java.util.List;
+
+public class TriatloView {
+    public static void exibirRanking(List<Atleta> atletas) {
+        System.out.println("Ranking Final dos Atletas:");
+        for (Atleta atleta : atletas) {
+            System.out.println(atleta);
+        }
+    }
+}
