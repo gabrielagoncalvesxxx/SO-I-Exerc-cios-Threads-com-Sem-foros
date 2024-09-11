@@ -1,0 +1,16 @@
+//Exercício 2
+package threads;
+public class Aviao implements Runnable {
+    private final Aeroporto aeroporto;
+    private final int idAviao;
+
+    public Aviao(Aeroporto aeroporto, int idAviao) {
+        this.aeroporto = aeroporto;
+        this.idAviao = idAviao;
+    }
+
+    @Override
+    public void run() {
+        aeroporto.usarPista(idAviao);
+    }
+}
