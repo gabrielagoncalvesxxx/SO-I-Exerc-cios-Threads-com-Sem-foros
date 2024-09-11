@@ -1,0 +1,35 @@
+//Exercício 3
+package threads;
+
+import java.util.*;
+
+public class Triatlo {
+    public static List<Atleta> gerarAtletas() {
+        List<Atleta> atletas = new ArrayList<>();
+
+        for (int i = 0; i < 25; i++) {
+            double tempoCorrida = 3600 + Math.random() * 900; // 3600s a 4500s
+            double tempoTiros = 0.5 * 3 + Math.random() * (3 - 0.5) * 3; // 1.5s a 9s
+            double tempoCiclismo = 5000 + Math.random() * 1667; // 5000s a 6667s
+            int pontosTiros = (int) (Math.random() * 31); // Pontuação entre 0 e 30 (0 a 10 por tiro)
+
+            // A posição de ranking pode ser determinada pela ordem de chegada simulada
+            int posicaoRanking = i + 1;
+
+            Atleta atleta = new Atleta(i + 1, tempoCorrida, tempoTiros, tempoCiclismo, pontosTiros, posicaoRanking);
+            atletas.add(atleta);
+        }
+
+        return atletas;
+    }
+
+    public static void main(String[] args) {
+        List<Atleta> atletas = gerarAtletas();
+
+        // Ordenar atletas por pontuação final
+        atletas.sort(Comparator.comparingDouble(Atleta::getPontuacaoFinal).reversed());
+
+        // Exibir resultados usando a classe TriatloView
+        TriatloView.exibirRanking(atletas);
+    }
+}
