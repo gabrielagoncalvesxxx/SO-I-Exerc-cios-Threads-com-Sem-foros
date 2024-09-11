@@ -1,0 +1,8 @@
+//Exercício 2
+package threads;
+public class Main {
+    public static void main(String[] args) {
+        Aeroporto aeroporto = new Aeroporto(new View());
+        aeroporto.iniciarOperacoes();
+    }
+}
