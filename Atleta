@@ -1,0 +1,31 @@
+//Exercício 3
+package threads;
+
+public class Atleta {
+    int id;
+    double tempoCorrida;
+    double tempoTiros;
+    double tempoCiclismo;
+    int pontosTiros;
+    int pontuacaoRanking;
+    double pontuacaoFinal;
+
+    public Atleta(int id, double tempoCorrida, double tempoTiros, double tempoCiclismo, int pontosTiros, int posicaoRanking) {
+        this.id = id;
+        this.tempoCorrida = tempoCorrida;
+        this.tempoTiros = tempoTiros;
+        this.tempoCiclismo = tempoCiclismo;
+        this.pontosTiros = pontosTiros;
+        this.pontuacaoRanking = 250 - (posicaoRanking - 1) * 10;
+        this.pontuacaoFinal = this.pontuacaoRanking + pontosTiros;
+    }
+
+    public double getPontuacaoFinal() {
+        return pontuacaoFinal;
+    }
+
+    @Override
+    public String toString() {
+        return "Atleta " + id + ": Pontuação Final = " + pontuacaoFinal;
+    }
+}
