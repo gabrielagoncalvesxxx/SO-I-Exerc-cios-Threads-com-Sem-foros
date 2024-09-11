@@ -1,0 +1,55 @@
+//Exercício 2
+package threads;
+import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
+
+public class Aeroporto {
+    private static final int NUM_PISTAS = 2;
+    private final Semaphore semaforoPistas = new Semaphore(NUM_PISTAS);
+    private final ExecutorService executor = Executors.newFixedThreadPool(NUM_PISTAS);
+    private final Random random = new Random();
+    private final View view;
+
+    public Aeroporto(View view) {
+        this.view = view;
+    }
+
+    public void iniciarOperacoes() {
+        for (int i = 0; i < 12; i++) {
+            executor.submit(new Aviao(this, i + 1));
+        }
+        executor.shutdown();
+    }
+
+    public void usarPista(int idAviao) {
+        try {
+            semaforoPistas.acquire();
+            view.exibirMensagem("Aviao " + idAviao + " está utilizando uma pista.");
+            realizarFases(idAviao);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        } finally {
+            semaforoPistas.release();
+            view.exibirMensagem("Aviao " + idAviao + " liberou a pista.");
+        }
+    }
+
+    private void realizarFases(int idAviao) throws InterruptedException {
+        int faseTaxiar = random.nextInt(501) + 500;
+        int faseDecolagem = random.nextInt(201) + 600;
+        int faseAfastamento = random.nextInt(501) + 300;
+        
+        view.exibirMensagem("Avião " + idAviao + " começando a taxiar por " + faseTaxiar + " ms.");
+        Thread.sleep(faseTaxiar);
+        
+        view.exibirMensagem("Avião " + idAviao + " iniciando a decolagem por " + faseDecolagem + " ms.");
+        Thread.sleep(faseDecolagem);
+        
+        view.exibirMensagem("Avião " + idAviao + " afastando-se por " + faseAfastamento + " ms.");
+        Thread.sleep(faseAfastamento);
+        
+        view.exibirMensagem("Avião " + idAviao + " completou todas as fases.");
+    }
+}
